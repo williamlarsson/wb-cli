@@ -20,5 +20,5 @@ Win: `chocolatey install jq`
 
         wb                          Command to register to workbook
         wb <yyyy-mm-dd>             Register for given date
-        wb today                    Get bookings overview for today
-        wb today <yyyy-mm-dd>       Get bookings overview for given date
+        wb bookings                 Get bookings overview for today
+        wb bookings <yyyy-mm-dd>    Get bookings overview for given date

@@ -63,8 +63,8 @@ function wb () {
     if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "-help" ]]; then
         echo "${green}wb                          ${reset}Command to register to workbook"
         echo "${green}wb <yyyy-mm-dd>             ${reset}Register for given date"
-        echo "${green}wb today                    ${reset}Get bookings overview for today"
-        echo "${green}wb today <yyyy-mm-dd>       ${reset}Get bookings overview for given date"
+        echo "${green}wb bookings                 ${reset}Get bookings overview for today"
+        echo "${green}wb bookings <yyyy-mm-dd>    ${reset}Get bookings overview for given date"
     else
         #ESTABLISH AUTHENTICATION TO WORKBOOK
         echo "${reset}Establishing authentication to workbook..."
@@ -73,8 +73,8 @@ function wb () {
             -H "Content-Type: application/json" \
             -X "POST" \
             -d '{"UserName":"'"$WORKBOOK_USERNAME"'","Password":"'"$WORKBOOK_PASSWORD"'", "RememberMe": true}')
-
         WORKBOOK_USER_ID=$( echo $AUTH_WITHOUT_HEADERS | tr '\r\n' ' ' |  jq '.Id' )
+
 
         AUTH_WITH_HEADERS=$(curl -i -s "https://wbapp.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
@@ -115,7 +115,7 @@ function wb () {
 
         BOOKINGS_COUNTER=0
 
-        if [[ "$1" = "getToday" ]] || [[ "$1" = "today" ]]; then
+        if [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]]; then
 
             DATE=${2:-$(date +'%Y-%m-%d')}
 
@@ -243,8 +243,6 @@ function wb () {
                 echo "${green}Done"
                 echo "${reset}Now: ${red} Treci la Traeba!"
             fi
-
         fi
     fi
 }
-
