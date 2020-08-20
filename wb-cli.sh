@@ -43,7 +43,6 @@ function wbRegister () {
 
     echo "${reset}Sending registration to workbook"
 
-    # TOTAL_HOURS_REGISTERED=$( echo "$TOTAL_HOURS_REGISTERED + $USER_HOURS" | bc )
     REGISTER_TIME_REQUEST=$( curl -s "https://wbapp.magnetix.dk/api/personalexpense/timeentry/week" \
         -H "Accept: application/json, text/plain, */*" \
         -H "Content-Type: application/json" \
@@ -66,7 +65,6 @@ function wb () {
         echo "${green}wb bookings                 ${reset}Get bookings overview for today"
         echo "${green}wb bookings <yyyy-mm-dd>    ${reset}Get bookings overview for given date"
     else
-        #ESTABLISH AUTHENTICATION TO WORKBOOK
         echo "${reset}Establishing authentication to workbook..."
 
         AUTH_WITHOUT_HEADERS=$(curl -s "https://wbapp.magnetix.dk/api/auth/ldap" \
@@ -131,8 +129,6 @@ function wb () {
                 -H "Content-Type: application/json" \
                 -H "Cookie: ${COOKIE}" )
 
-            # https://workbook.magnetix.dk/api/json/reply/TimeEntryDailyRequest?ResourceId=3644&Date=2020-08-18T00%3A00%3A00.000Z&Week=true
-
 
             FILTER_RESPONSE_DETAILS=$( echo $FILTER_RESPONSE | jq '.[] | .Data | ."0" | .Details ')
 
@@ -163,7 +159,6 @@ function wb () {
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
                 let WORKBOOK_REGISTERED_HOURS
             done
-
 
         else
             DATE=${1:-$(date +'%Y-%m-%d')}
