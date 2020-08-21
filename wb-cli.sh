@@ -111,8 +111,12 @@ function wb () {
             -H "Content-Type: application/json" \
             -X "POST" \
             -d '{"UserName":"'"$WORKBOOK_USERNAME"'","Password":"'"$WORKBOOK_PASSWORD"'", "RememberMe": true}')
-        WORKBOOK_USER_ID=$( echo $AUTH_WITHOUT_HEADERS | tr '\r\n' ' ' |  jq '.Id' )
 
+        if [[ $WORKBOOK_RESOURCE_ID ]]; then
+            WORKBOOK_USER_ID=$WORKBOOK_RESOURCE_ID
+        else
+            WORKBOOK_USER_ID=$( echo $AUTH_WITHOUT_HEADERS | tr '\r\n' ' ' |  jq '.Id' )
+        fi
 
         AUTH_WITH_HEADERS=$(curl -i -s "https://wbapp.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
