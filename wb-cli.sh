@@ -19,37 +19,77 @@ function wbRegister () {
     echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
     echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
     echo ""
-    echo "${reset}Do want to register a booking?"
-    echo "${green}1: ${reset} Yes, I want to book the registered hours: ${green}$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')"
-    echo "${green}2: ${reset} Yes, I want to book, but manually enter the amount of hours."
-    echo "${green}3: ${reset} No, I don't want to register to this booking"
-    echo -n "${reset}Enter number and press [ENTER]: "
-    read USER_HOURS
 
-    if [[ "$USER_HOURS" == "1" ]]; then
-        USER_HOURS=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')
+    # NO REGISTERED HOURS
+    if [[ $WORKBOOK_REGISTERED_HOURS == 0 ]]; then
 
-    elif [[ "$USER_HOURS" == "2" ]]; then
-        echo -n "${reset}Enter amount of desired hours and press [ENTER]: "
+        echo "${reset}Do want to register this booking?"
+        echo "${green}1: ${reset} Yes, I want to register the booked amount of hours: ${green}$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')"
+        echo "${green}2: ${reset} Yes, I want to register, but manually enter the amount of hours."
+        echo "${green}3: ${reset} No, I don't want to register to this booking"
+        echo -n "${reset}Enter number and press [ENTER]: "
         read USER_HOURS
 
-    elif [[ "$USER_HOURS" == "3" ]]; then
-        return
+        if [[ "$USER_HOURS" == "1" ]]; then
+            USER_HOURS=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')
+
+        elif [[ "$USER_HOURS" == "2" ]]; then
+            echo -n "${reset}Enter amount of desired hours and press [ENTER]: "
+            read USER_HOURS
+
+        elif [[ "$USER_HOURS" == "3" ]]; then
+            return
+        fi
+
+
+        echo -n "${reset}Enter description for the registration and press [ENTER]: "
+        read USER_DESCRIPTION
+
+        echo "${reset}Sending registration to workbook"
+
+        REGISTER_TIME_REQUEST=$( curl -s "https://wbapp.magnetix.dk/api/personalexpense/timeentry/week" \
+            -H "Accept: application/json, text/plain, */*" \
+            -H "Content-Type: application/json" \
+            -H "Cookie: ${COOKIE}" \
+            -X "POST" \
+            -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","InternalDescription":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
+
+    else
+        # PREVIOUSLY REGISTERED, UPDATE
+        echo "${reset}Do want to update this booking?"
+        echo "${green}1: ${reset} Yes, I want to update with the booked amount of hours: ${green}$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')"
+        echo "${green}2: ${reset} Yes, I want to update, but manually enter the amount of hours."
+        echo "${green}3: ${reset} No, I don't want to update this booking"
+        echo -n "${reset}Enter number and press [ENTER]: "
+        read USER_HOURS
+
+        if [[ "$USER_HOURS" == "1" ]]; then
+            USER_HOURS=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours')
+
+        elif [[ "$USER_HOURS" == "2" ]]; then
+            echo -n "${reset}Enter amount of desired hours and press [ENTER]: "
+            read USER_HOURS
+
+        elif [[ "$USER_HOURS" == "3" ]]; then
+            return
+        fi
+
+
+        echo -n "${reset}Enter description for the registration and press [ENTER]: "
+        read USER_DESCRIPTION
+
+        echo "${reset}Sending registration to workbook"
+
+        WORKBOOK_REGISTERED_ID=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | select(.Hours > 0) ] | first | .Id' )
+
+        REGISTER_TIME_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryUpdateRequest" \
+            -H "Accept: application/json, text/plain, */*" \
+            -H "Content-Type: application/json" \
+            -H "Cookie: ${COOKIE}" \
+            -X "POST" \
+            -d '{"Id": '$WORKBOOK_REGISTERED_ID', "ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","InternalDescription":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
+
     fi
-
-
-    echo -n "${reset}Enter description for the booking and press [ENTER]: "
-    read USER_DESCRIPTION
-
-    echo "${reset}Sending registration to workbook"
-
-    REGISTER_TIME_REQUEST=$( curl -s "https://wbapp.magnetix.dk/api/personalexpense/timeentry/week" \
-        -H "Accept: application/json, text/plain, */*" \
-        -H "Content-Type: application/json" \
-        -H "Cookie: ${COOKIE}" \
-        -X "POST" \
-        -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","InternalDescription":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
-
 }
 
 function wb () {
