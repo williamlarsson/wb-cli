@@ -5,7 +5,7 @@ function wbRegister () {
     WORKBOOK_TASK_ID=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')
 
 
-    TOTAL_HOURS_BOOKED=$( echo "$TOTAL_HOURS_BOOKED" + $( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours') | bc )
+    TOTAL_HOURS_BOOKED=$(( $TOTAL_HOURS_BOOKED + $( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours') ))
     WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
     WORKBOOK_TASK_DATA=$( curl -s "https://wbapp.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
@@ -226,12 +226,12 @@ function wb () {
 
             done
             echo ""
-            if [[ $( echo "$TOTAL_HOURS_BOOKED" '<' "$TOTAL_HOURS_REGISTERED" | bc -l) = "1" ]]; then
-                echo "${red}Heads up. You have overbooked with ${green}$( echo "$TOTAL_HOURS_REGISTERED" - "$TOTAL_HOURS_BOOKED" | bc )${red} hours. "
+            if [[ $(( $TOTAL_HOURS_BOOKED < $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
+                echo "${red}Heads up. You have overbooked with ${green}$(( $TOTAL_HOURS_REGISTERED - $TOTAL_HOURS_BOOKED ))${red} hours. "
                 echo "${reset}Visit workbook manually to correct this."
 
-            elif [[ $( echo "$TOTAL_HOURS_BOOKED" '>' "$TOTAL_HOURS_REGISTERED" | bc -l) = "1" ]]; then
-                echo "${red}Heads up. You have underbooked with ${green}$( echo "$TOTAL_HOURS_BOOKED" - "$TOTAL_HOURS_REGISTERED" | bc )${red} hours. "
+            elif [[ $(( $TOTAL_HOURS_BOOKED > $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
+                echo "${red}Heads up. You have underbooked with ${green}$(( $TOTAL_HOURS_BOOKED - $TOTAL_HOURS_REGISTERED )) ${red} hours. "
                 echo "${reset}Visit workbook manually to correct this."
             else
                 echo ""
