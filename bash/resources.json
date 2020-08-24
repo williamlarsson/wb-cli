@@ -1,0 +1,2099 @@
+[
+    {
+        "Id": 3819,
+        "Name": "Ada Lungu",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AL3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4308,
+        "Name": "Adam Haxgart",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MH11",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2,
+        "Name": "Admin",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "ADM",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4330,
+        "Name": "Agustin Pequeno",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AP4",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1793,
+        "Name": "Aida Kirkiacharian Lind",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "ALI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4345,
+        "Name": "Alejandro Paredes Alva",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "APA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2659,
+        "Name": "Alexander Dons Lund",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ADL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3900,
+        "Name": "Alexander Ellegaard Landberg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AEL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2710,
+        "Name": "Alexandra Mourier                                           ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AMO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3739,
+        "Name": "Amalie Friis",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "AF2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1893,
+        "Name": "Anders Bünger Villadsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ABV",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2588,
+        "Name": "Anders Ekstrøm Nilou",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ANI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3148,
+        "Name": "Anders Grandjean-Thomsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AGT",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3577,
+        "Name": "Anders Holmgaard Opstrup ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AHO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3402,
+        "Name": "Anders Rasch Hartmann",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ARH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1504,
+        "Name": "Andreas Krantz Backe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "AKB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3422,
+        "Name": "Anja Marie Syska",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AMS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4137,
+        "Name": "Anna-Frida Landau",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "AL5",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2664,
+        "Name": "Anne Sophie Østergaard",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ASO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4205,
+        "Name": "Annemette Traberg Stenson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "ATS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2477,
+        "Name": "Annette Kragh Jacobsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AKJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4359,
+        "Name": "Asbjørn Gødsbøl Birch",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "AGB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4275,
+        "Name": "Bardur Simonsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "BS5",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1710,
+        "Name": "Bjarke Kongstad Pedersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "BKO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3580,
+        "Name": "Bobby Hollingsworth",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "BHO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 801,
+        "Name": "Bogholder",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "BBB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 795,
+        "Name": "Britt Mathiassen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "BMA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2648,
+        "Name": "Buster Damborg Laursen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "BDL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3004,
+        "Name": "Camilla Einfeldt",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CEI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4313,
+        "Name": "Camilla Kirstine Poulsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CKP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 198,
+        "Name": "Caroline Bernsdorf",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CBE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1712,
+        "Name": "Caroline Pedersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CPE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3776,
+        "Name": "Caroline Sejersen Jungmark",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CSJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3737,
+        "Name": "Caroline Sofie Djelert",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CSD",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3743,
+        "Name": "Casper Lund Mikkelsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CLM",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2639,
+        "Name": "Casper Pors Nikander",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CPN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4307,
+        "Name": "Casper Ravn Petersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CRP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4202,
+        "Name": "Catrine Frost Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CFJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4025,
+        "Name": "Cecilie Louise Roll Vinther-Høj",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CLRV",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3370,
+        "Name": "Cecilie Tøfting",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CTK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2822,
+        "Name": "Celina Stensig Holst",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "CSH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2798,
+        "Name": "Charlotte Ratje",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CRA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4057,
+        "Name": "Christian Kay Linkhusen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CKL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4480,
+        "Name": "Christian Oscar Briston Sager",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "COBS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3375,
+        "Name": "Christina Krog",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CHK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2733,
+        "Name": "Christina Melchior Juhl",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CMJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2377,
+        "Name": "Christina Mørkholt",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CHM",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1937,
+        "Name": "Christoffer Hillgaard Pedersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CHP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3383,
+        "Name": "Claudia Erdem",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CER",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3410,
+        "Name": "Claus Lyager",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "CLL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3586,
+        "Name": "Constanza Petrera",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CMP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3774,
+        "Name": "Cæcilie Gärtner ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "CG2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1763,
+        "Name": "Daniel Kongsted Petersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "DPE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3372,
+        "Name": "Daniel-Cristian Loghin",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "DLO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 780,
+        "Name": "David Strøm",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "DST",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1390,
+        "Name": "Dennis Johansen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "DJO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3103,
+        "Name": "Ditte Birger",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "DBI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2615,
+        "Name": "Emilie Kirstine Landau",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "ENI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4187,
+        "Name": "Emma Grauballe Mogensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "EGM",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3354,
+        "Name": "Emma Skovsted-Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "ESK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3796,
+        "Name": "Emmely Anna Cecilia Lundberg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "EACL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2139,
+        "Name": "Evelyn Esteves",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "EES",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1995,
+        "Name": "Fie Dahl Lund",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "FDL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4482,
+        "Name": "Fiona Skytte",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "FS5",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4445,
+        "Name": "Frederik Grummesgaard",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "FG",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3538,
+        "Name": "Frederikke Bjerg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "FBJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1233,
+        "Name": "Gudjon Bragi Stefansson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "GBS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1306,
+        "Name": "Hannah Fjorder Schwartz",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "HSC",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1871,
+        "Name": "Hanne Rost Rasmussen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "HRA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3374,
+        "Name": "Hasan Samanci",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "HSA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3488,
+        "Name": "Helene Weinkouff Barsøe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "HWB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1767,
+        "Name": "Helle Marianne Sprange",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "HSP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3343,
+        "Name": "Henrik Lauridsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "HLA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4040,
+        "Name": "Hugo Damian Becerra",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "HDB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4148,
+        "Name": "Ida Kold",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "IEK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3584,
+        "Name": "Ida Olesen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "IDO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4180,
+        "Name": "Idunn Isabella Sommer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "IIS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1637,
+        "Name": "Ivan Thorsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ITH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1819,
+        "Name": "Jacob Munksgard Hoff",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JMH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2660,
+        "Name": "Jacob Sander",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JSA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3583,
+        "Name": "Jakob Lindenskov Bandholm",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JLB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3638,
+        "Name": "Janne Aunvig",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JAU",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4334,
+        "Name": "Jannik Jakobsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JJ3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3480,
+        "Name": "Jannika Larsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JAL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4087,
+        "Name": "Jason Kelly",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JK8",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3241,
+        "Name": "Jeanette Lausten Jørgensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JLJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3821,
+        "Name": "Jennifer Gudmann",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JG",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4278,
+        "Name": "Jens Henrik Vogelius",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JV3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3978,
+        "Name": "Jens Højgaard ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JH6",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2458,
+        "Name": "Jeppe Schaumburg Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JSJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4203,
+        "Name": "Jesper Dyrby Arvidson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JDA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4280,
+        "Name": "Jesper Frandsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JF2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1507,
+        "Name": "Jesper Nyboe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JNY",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3890,
+        "Name": "Jim Winkler Saabye",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JWS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1453,
+        "Name": "Jimmi Eriksen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JER",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4363,
+        "Name": "Jimmie Overby",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JO2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 477,
+        "Name": "Johan Sehested",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "JSE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3440,
+        "Name": "Jonas Guldberg Pabst",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JGP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1508,
+        "Name": "Jonas Svejgaard Henriksen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JSH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2712,
+        "Name": "Jonas Trier-Knudsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JTK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1126,
+        "Name": "Josefine Eliasson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JEL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3659,
+        "Name": "Josephine Jakobsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "JJA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3738,
+        "Name": "Julie Flyvholm Cramer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "JFC",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4269,
+        "Name": "Karina Dalsø",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "KD3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2875,
+        "Name": "Kaspar Forland",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KPF",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2716,
+        "Name": "Kaspar Monberg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "KMO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3288,
+        "Name": "Kasper Hornum Pontoppidan",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KHP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2550,
+        "Name": "Kasper Kloosterman Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KKJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4314,
+        "Name": "Kasper Siggaard Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KSA2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3989,
+        "Name": "Katrín Dúa Sigurdardóttir ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KDS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3056,
+        "Name": "Katrine Krogshede",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "KKR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 194,
+        "Name": "Kenneth Olsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KOL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3892,
+        "Name": "Kian Zanno Ejlertsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "KZE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3409,
+        "Name": "Kim Knudsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KKN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3889,
+        "Name": "Kim Olsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KO3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2718,
+        "Name": "Kira Begtrup",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KBH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1965,
+        "Name": "Kirsten Funk",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KFU",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4471,
+        "Name": "Kristian Toft Holmlund",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KTH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2959,
+        "Name": "Kristoffer Brinch Kjeldby",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "KBK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4272,
+        "Name": "Kristoffer Lippert",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "KL4",
+        "CompanyId": 1
+    },
+    {
+        "Id": 844,
+        "Name": "Laila Wiuf",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "LWN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1838,
+        "Name": "Lars Harder",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LHA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 206,
+        "Name": "Lars Linde",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "LLI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3108,
+        "Name": "Lars Vang Sørensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "LVS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2899,
+        "Name": "Lasse Wiik Christensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "LWC",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3466,
+        "Name": "Line Møller-Damgaard",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LMD",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4177,
+        "Name": "Line Sara Bender",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LSBK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3528,
+        "Name": "Lisette Thim Arndtsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "LAR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1387,
+        "Name": "Louise Nørgaard Dam",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LND",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1511,
+        "Name": "Louise Stolberg Halby",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LLU",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4026,
+        "Name": "Luna Winther Worm",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "LWW",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3408,
+        "Name": "Mads Bruun Færch-Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MBF",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3956,
+        "Name": "Mads Hansen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MH9",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3750,
+        "Name": "Magnus Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MJN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3593,
+        "Name": "Malene Hoffmeyer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MAL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3336,
+        "Name": "Malte Lisborg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MLI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3344,
+        "Name": "Manuel Jacques Thomsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MJT",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4135,
+        "Name": "Marc Legarth Sander",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MLS2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4181,
+        "Name": "Marck Lyager Lorentsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "MLL2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2657,
+        "Name": "Marcus Duchatel Kauffmann",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MDK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3060,
+        "Name": "Marcus Kai Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MKN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2005,
+        "Name": "Maria Hammer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "MH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1967,
+        "Name": "Maria Ladegaard Stuhr Madsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MLM",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1620,
+        "Name": "Maria Louise Poulsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "FJB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4333,
+        "Name": "Marielle Lebrun",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ML4",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2319,
+        "Name": "Marina Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MNI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2719,
+        "Name": "Marius Florin Crisan",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MFC",
+        "CompanyId": 1
+    },
+    {
+        "Id": 182,
+        "Name": "Martin Bochineck",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MBO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4058,
+        "Name": "Martin Bonnor",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MB13",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1732,
+        "Name": "Martin Chapman",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MLC",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4206,
+        "Name": "Mathias Valling",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MV4",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3412,
+        "Name": "Matt Soltani",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MSO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4279,
+        "Name": "Max Møller Viuff",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MMV",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3916,
+        "Name": "Mélissa Mijatovic",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "MM2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1868,
+        "Name": "Mia Colding-Olsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MCO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1582,
+        "Name": "Michael Chalmer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MCH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3893,
+        "Name": "Michael Falck Wedelgård",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MFW",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3100,
+        "Name": "Michael Gundvang Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MGU",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2411,
+        "Name": "Michael Hansen Fly",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "mih",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4473,
+        "Name": "Michelle Kallestrup Berg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "M10",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3195,
+        "Name": "Mie Dina Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MDJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4039,
+        "Name": "Mikkel Holmkvist Selch",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MHS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2876,
+        "Name": "Mikkel Lysgård Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MAN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1626,
+        "Name": "Mikkel Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MIK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2032,
+        "Name": "Morten Leerhøy",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MLE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1857,
+        "Name": "Morten Rasch",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MRA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 195,
+        "Name": "Morten Stinus Kold",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "MKO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3400,
+        "Name": "Morten Sværke Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MSA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4286,
+        "Name": "Morten Zobbe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "MZ2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2140,
+        "Name": "Nadia Villadsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "NVI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3773,
+        "Name": "Natasha Tramp Roe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "NTR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1232,
+        "Name": "Nicholai Reinseth",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NRE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3736,
+        "Name": "Nicholas Lindboe",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4360,
+        "Name": "Nicklas Flyvholm Kristensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NFK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3581,
+        "Name": "Nicklas Frandsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NFR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3549,
+        "Name": "Nicoleta Olaru",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NIO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4481,
+        "Name": "Nicoline Krøyer",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "NK3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1856,
+        "Name": "Niels Bjørsted",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NBJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2087,
+        "Name": "Nikolai Ingerslev Stage",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NIS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3891,
+        "Name": "Nikolaj Baatz Kristensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NBK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2720,
+        "Name": "Nui Lauridsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "NLA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4332,
+        "Name": "Oliver Bergenhagen Pedersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "OBP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1455,
+        "Name": "Pernille Nygaard Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "PNI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4274,
+        "Name": "Peter Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PA3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1823,
+        "Name": "Peter Bruun Jacobsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PJA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1711,
+        "Name": "Peter Emil Munch Jørgensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PEj",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4305,
+        "Name": "Peter Grandt",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PG3",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2701,
+        "Name": "Peter Porsmose",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "PPO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3376,
+        "Name": "Peter Sølling",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "PSO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4268,
+        "Name": "Petra Vasiljev",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PVA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2356,
+        "Name": "Pia Hausmann Sebell",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "PHS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3548,
+        "Name": "Rasmus Berntsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RAB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1978,
+        "Name": "Rasmus Holst Andersson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RAN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3977,
+        "Name": "Rasmus Mousten Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RMA2",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1854,
+        "Name": "Rasmus Schau-Seidler",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RSE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3174,
+        "Name": "Rasmus Yu Limschou",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "RLI",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3662,
+        "Name": "Rikke Koch",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RKO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3398,
+        "Name": "Robert Ayzma",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RAY",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4312,
+        "Name": "Robin Selmann Zeth",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "RSZ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3353,
+        "Name": "Rosalind Kelly Skovbo",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "RKS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3639,
+        "Name": "Sabine Højrup Bøgh Jordan",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SJO",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4204,
+        "Name": "Sandra Isabella Siig Larsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SISL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 202,
+        "Name": "Sebastian Franck",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SEF",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2548,
+        "Name": "Sidsel Baggesen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SBA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3600,
+        "Name": "Signe Andrup",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SAN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1714,
+        "Name": "Sille Noack Sætre",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SNS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 210,
+        "Name": "Simon Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SBN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3944,
+        "Name": "Simone Maria Brunshøj",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SMB",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4136,
+        "Name": "Sine Andersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "S16",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4311,
+        "Name": "Siyan Panayotov",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SP7",
+        "CompanyId": 1
+    },
+    {
+        "Id": 677,
+        "Name": "Steen Østerby",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "SOS",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4130,
+        "Name": "Stefan Bøgegaard Larsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SBL",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4061,
+        "Name": "Steffen Souza Ric-Hansen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SSR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3169,
+        "Name": "Stephanie Pausgaard",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SP6",
+        "CompanyId": 1
+    },
+    {
+        "Id": 688,
+        "Name": "Susanne Rasmussen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SRA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3101,
+        "Name": "Søren Brandborg",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "SBR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4277,
+        "Name": "Søren Markert",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SM6",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4273,
+        "Name": "Søren Skyum",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "SS6",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2728,
+        "Name": "Søren Tarding",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "STA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2361,
+        "Name": "Søren Toft Pedersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "STP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3631,
+        "Name": "Tanja Schow Jensen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "TSJ",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3551,
+        "Name": "Thea Bryder Nielsen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "TBN",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2637,
+        "Name": "Thomas Gjermansen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "TGE",
+        "CompanyId": 1
+    },
+    {
+        "Id": 1855,
+        "Name": "Thomas Halfeld",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "THA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4436,
+        "Name": "Tine Østerskov Heinricy",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "TØH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3439,
+        "Name": "Trine Alstrup Rasmussen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "TAR",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3142,
+        "Name": "Trine Melissa Kenlev",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 4,
+        "Initials": "TMK",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2592,
+        "Name": "Ulrik Mailand",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "UMA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 193,
+        "Name": "Wendy Wiese Petersen",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 2,
+        "Initials": "WWP",
+        "CompanyId": 1
+    },
+    {
+        "Id": 4276,
+        "Name": "William Hanby",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "WH",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3644,
+        "Name": "William Larsson",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "WLA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 2687,
+        "Name": "Zaheer Tariq",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 3,
+        "Initials": "ZTA",
+        "CompanyId": 1
+    },
+    {
+        "Id": 3706,
+        "Name": "Zoe Christoffersen ",
+        "TypeId": 2,
+        "Active": true,
+        "UserAccountType": 1,
+        "Initials": "ZSC",
+        "CompanyId": 1
+    }
+]
