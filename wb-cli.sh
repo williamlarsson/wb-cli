@@ -218,11 +218,11 @@ function wb () {
             echo ""
             if [[ $(( $TOTAL_HOURS_BOOKED < $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
                 echo "${red}Heads up. You have overbooked with ${green}$(( $TOTAL_HOURS_REGISTERED - $TOTAL_HOURS_BOOKED ))${red} hours. "
-                echo "${reset}Visit workbook manually to correct this."
+                echo "${reset}Run the register again to update, or visit workbook manually to correct this."
 
             elif [[ $(( $TOTAL_HOURS_BOOKED > $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
                 echo "${red}Heads up. You have underbooked with ${green}$(( $TOTAL_HOURS_BOOKED - $TOTAL_HOURS_REGISTERED )) ${red} hours. "
-                echo "${reset}Visit workbook manually to correct this."
+                echo "${reset}Run the register again to update, or visit workbook manually to correct this."
             else
                 echo "${green}Done"
                 echo "${reset}Now: ${red} Treci la Traeba!"
@@ -262,10 +262,16 @@ function wb () {
 
     else
         echo "${reset}Usage commands:"
+        echo ""
         echo "${green}wb reg|register               ${reset}Command to register to workbook"
         echo "${green}wb reg|register <yyyy-mm-dd>  ${reset}Register for given date"
-        echo "${green}wb reg|register <-int|int>    ${reset}Register for +/- amount of days"
+        echo "${green}wb reg|register <-int|int>    ${reset}Register for +/- amount of days."
+        echo "                              ${blue}Example: wb reg -1 -> Register for yesterday"
+        echo ""
         echo "${green}wb bookings                   ${reset}Get bookings overview for today"
         echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings overview for given date"
+        echo "${green}wb bookings <-int|int>        ${reset}Get bookings overview +/- amount of days"
+        echo "                              ${blue}Example: wb bookings +1 -> Get bookings for tomorrow"
     fi
 }
+wb
