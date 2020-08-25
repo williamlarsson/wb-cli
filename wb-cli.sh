@@ -274,4 +274,3 @@ function wb () {
         echo "                              ${blue}Example: wb bookings +1 -> Get bookings for tomorrow"
     fi
 }
-wb
