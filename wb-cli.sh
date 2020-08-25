@@ -52,7 +52,7 @@ function wbRegister () {
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" \
             -X "POST" \
-            -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","InternalDescription":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
+            -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
 
     else
         # PREVIOUSLY REGISTERED, UPDATE
@@ -87,7 +87,7 @@ function wbRegister () {
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" \
             -X "POST" \
-            -d '{"Id": '$WORKBOOK_REGISTERED_ID', "ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","InternalDescription":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
+            -d '{"Id": '$WORKBOOK_REGISTERED_ID', "ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'","Date":'$DATE'T00:00:00.000Z}' )
 
     fi
 }
@@ -263,7 +263,7 @@ function wb () {
     else
         echo "${reset}Usage commands:"
         echo ""
-        echo "${green}wb reg|register               ${reset}Command to register to workbook"
+        echo "${green}wb reg|register               ${reset}Register to workbook"
         echo "${green}wb reg|register <yyyy-mm-dd>  ${reset}Register for given date"
         echo "${green}wb reg|register <-int|int>    ${reset}Register for +/- amount of days."
         echo "                              ${blue}Example: wb reg -1 -> Register for yesterday"
