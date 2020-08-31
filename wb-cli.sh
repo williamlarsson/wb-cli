@@ -4,11 +4,10 @@ function wbRegister () {
 
     WORKBOOK_TASK_ID=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')
 
-
     TOTAL_HOURS_BOOKED=$(( $TOTAL_HOURS_BOOKED + $( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours') ))
     WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
-    WORKBOOK_TASK_DATA=$( curl -s "https://wbapp.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+    WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
         -H "Accept: application/json, text/plain, */*" \
         -H "Content-Type: application/json" \
         -H "Cookie: ${COOKIE}" )
@@ -47,7 +46,7 @@ function wbRegister () {
 
         echo "${reset}Sending registration to workbook"
 
-        REGISTER_TIME_REQUEST=$( curl -s "https://wbapp.magnetix.dk/api/personalexpense/timeentry/week" \
+        REGISTER_TIME_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/week" \
             -H "Accept: application/json, text/plain, */*" \
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" \
@@ -99,10 +98,11 @@ function wb () {
     green=`tput setaf 2`
     reset="$(tput sgr0)"
 
-    if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]]; then
+    if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]] || [[ "$1" = "search" ]] || [[ "$1" = "manual" ]]; then
 
         echo "${reset}Establishing authentication to workbook..."
 
+        # SET DATE ACCORDING TO USER INPUT
         if [[ $(( ${#2} > 0 )) == 1 && $(( ${#2} < 4 )) == 1  ]]; then
             CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $2 * 86400 )) ))
             DATE=$( date -r $CALCULATED_UNIX_DATE +'%Y-%m-%d' )
@@ -113,7 +113,8 @@ function wb () {
         fi
 
 
-        AUTH_WITHOUT_HEADERS=$(curl -s "https://wbapp.magnetix.dk/api/auth/ldap" \
+
+        AUTH_WITHOUT_HEADERS=$(curl -s "https://workbook.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
             -X "POST" \
             -d '{"UserName":"'"$WORKBOOK_USERNAME"'","Password":"'"$WORKBOOK_PASSWORD"'", "RememberMe": true}')
@@ -124,12 +125,12 @@ function wb () {
             WORKBOOK_USER_ID=$( echo $AUTH_WITHOUT_HEADERS | tr '\r\n' ' ' |  jq '.Id' )
         fi
 
-        AUTH_WITH_HEADERS=$(curl -i -s "https://wbapp.magnetix.dk/api/auth/ldap" \
+        AUTH_WITH_HEADERS=$(curl -i -s "https://workbook.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
             -X "POST" \
             -d '{"UserName":"'"$WORKBOOK_USERNAME"'","Password":"'"$WORKBOOK_PASSWORD"'", "RememberMe": true}')
 
-
+        # GET INFO FROM RESPONSE TO SET COOKIE
         if [[ $AUTH_WITH_HEADERS =~ "ss-pid=(.{20})" ]]; then
             SS_PID=${match[1]}
         elif [[ $AUTH_WITH_HEADERS =~ ss-pid=(.{20}) ]]; then
@@ -150,7 +151,7 @@ function wb () {
 
         COOKIE="X-UAId=; ss-opt=perm; ss-pid=${SS_PID}; ss-id=${SS_ID};"
 
-        FILTER_RESPONSE=$( curl -s "https://wbapp.magnetix.dk/api/schedule/weekly/visualization/data?ResourceIds=${WORKBOOK_USER_ID}&PeriodType=1&Date=${DATE}&Interval=1" \
+        FILTER_RESPONSE=$( curl -s "https://workbook.magnetix.dk/api/schedule/weekly/visualization/data?ResourceIds=${WORKBOOK_USER_ID}&PeriodType=1&Date=${DATE}&Interval=1" \
             -H "Accept: application/json, text/plain, */*" \
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" \
@@ -163,7 +164,7 @@ function wb () {
 
         BOOKINGS_COUNTER=0
 
-        REGISTERED_TASKS=$( curl -s "https://wbapp.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
+        REGISTERED_TASKS=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
             -H "Accept: application/json, text/plain, */*" \
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" )
@@ -174,34 +175,33 @@ function wb () {
 
         if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]]; then
 
-            BOOKINGS_COUNTER=0
 
             TOTAL_HOURS_BOOKED=0
             TOTAL_HOURS_REGISTERED=0
 
             echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${green}$DATE_MESSAGE."
 
-            while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
+            for BOOKINGS_COUNTER in {0..$(( $NUM_OF_BOOKINGS - 1 ))}
+            do
 
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
 
                 wbRegister "$CURRENT_TASK_BOOKING"
 
-                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-
             done
 
-
-            BOOKINGS_COUNTER=0
-
-            while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
+            echo ""
+            echo "${blue}Overview:${reset}"
+            for BOOKINGS_COUNTER in {0..$(( $NUM_OF_BOOKINGS - 1 ))}
+            do
 
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
 
                 WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
-                WORKBOOK_TASK_DATA=$( curl -s "https://wbapp.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j "[.[] | select(.TaskId == $WORKBOOK_TASK_ID) | .Hours ] | add // 0" )
+
+                WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
                     -H "Accept: application/json, text/plain, */*" \
                     -H "Content-Type: application/json" \
                     -H "Cookie: ${COOKIE}" )
@@ -212,9 +212,9 @@ function wb () {
                 echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
                 echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
                 let TOTAL_HOURS_REGISTERED=TOTAL_HOURS_REGISTERED+WORKBOOK_REGISTERED_HOURS
-                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-
             done
+
+            #SUMMARIZE
             echo ""
             if [[ $(( $TOTAL_HOURS_BOOKED < $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
                 echo "${red}Heads up. You have overbooked with ${green}$(( $TOTAL_HOURS_REGISTERED - $TOTAL_HOURS_BOOKED ))${red} hours. "
@@ -242,9 +242,11 @@ function wb () {
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
 
                 WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
-                WORKBOOK_TASK_DATA=$( curl -s "https://wbapp.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+
+                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
+
+                WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
                     -H "Accept: application/json, text/plain, */*" \
                     -H "Content-Type: application/json" \
                     -H "Cookie: ${COOKIE}" )
@@ -254,9 +256,77 @@ function wb () {
                 echo "${reset}Hours booked: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
                 echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
                 echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
+
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
                 let WORKBOOK_REGISTERED_HOURS
             done
+
+        elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
+
+
+            ALL_DATA=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryAllowedJobsVisualizationCacheRequest?OnlyActiveProjects=true&Date=${DATE}" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}"
+            )
+            echo -n "${reset}Enter client and press [ENTER]: "
+            read SEARCH_CLIENT
+
+            ALL_JOBS=$( echo $ALL_DATA | jq '[.[]  | {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ]' )
+            MATCHING_JOBS=$( echo $ALL_JOBS | jq '[.[] | if .CustomerName|test("'$SEARCH_CLIENT'"; "i")  then ( {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ) else empty end ]')
+            MATCHING_JOBS_LENGTH=$( echo $MATCHING_JOBS | jq length)
+
+
+            if [[ $MATCHING_JOBS_LENGTH = "0" ]]; then
+                echo "${red}Didn't find a matching client."
+                echo "${reset}Try again"
+                return
+            fi
+
+            echo "${reset}Found ${green}$MATCHING_JOBS_LENGTH${reset} job(s) matching the client"
+            echo ""
+            for MATCHING_JOBS_COUNTER in {0..$(( $MATCHING_JOBS_LENGTH - 1 ))}
+            do
+                echo "${green}$MATCHING_JOBS_COUNTER: "
+                echo "${reset}Client: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .CustomerName" ) ${reset}Job: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .JobName" )"
+                echo ""
+            done
+
+            echo -n "${reset}Choose the correct job index and press [ENTER]: "
+            read USER_CLIENT
+            USER_JOB_ID=$( echo $MATCHING_JOBS | jq ".[$USER_CLIENT] | .Id" )
+
+            MATCHING_TASKS=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TasksTimeRegistrationRequest?JobId=${USER_JOB_ID}&ResourceId=${WORKBOOK_USER_ID}" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}" )
+
+            MATCHING_TASKS_LENGTH=$( echo $MATCHING_TASKS | jq length)
+
+            for MATCHING_TASKS_COUNTER in {0..$(( $MATCHING_TASKS_LENGTH - 1 ))}
+            do
+                echo "${blue}$MATCHING_TASKS_COUNTER: ${reset}Task: ${green}$( echo $MATCHING_TASKS | jq ".[$MATCHING_TASKS_COUNTER] | .TaskName" )"
+            done
+
+            echo -n "${reset}Choose the correct task and press [ENTER]: "
+            read USER_TASK
+
+            WORKBOOK_TASK_ID=$( echo $MATCHING_TASKS | jq ".[$USER_TASK] | .Id" )
+
+            echo -n "${reset}Enter amount of desired hours and press [ENTER]: "
+            read USER_HOURS
+
+            echo -n "${reset}Enter description for the registration and press [ENTER]: "
+            read USER_DESCRIPTION
+
+            echo "${reset}Sending registration to workbook"
+
+            REGISTER_TIME_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/week" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}" \
+                -X "POST" \
+                -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
 
         fi
 
@@ -272,5 +342,9 @@ function wb () {
         echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings overview for given date"
         echo "${green}wb bookings <-int|int>        ${reset}Get bookings overview +/- amount of days"
         echo "                              ${blue}Example: wb bookings +1 -> Get bookings for tomorrow"
+        echo ""
+        echo "${green}wb search|manual              ${reset}Register to workbook manually"
+        echo "${green}wb search|manual <yyyy-mm-dd> ${reset}Register to workbook manually for given date"
+        echo "${green}wb search|manual <-int|int>   ${reset}Register to workbook manually +/- amount of days"
     fi
 }
