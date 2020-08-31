@@ -3,8 +3,8 @@ function wbRegister () {
     WORKBOOK_TASK_BOOKING=$1
 
     WORKBOOK_TASK_ID=$( echo $WORKBOOK_TASK_BOOKING | jq -j '.TaskId')
+    TOTAL_HOURS_BOOKED=$( jq -n $TOTAL_HOURS_BOOKED + $( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours') )
 
-    TOTAL_HOURS_BOOKED=$(( $TOTAL_HOURS_BOOKED + $( echo $WORKBOOK_TASK_BOOKING | jq -j '.Hours') ))
     WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
     WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
@@ -181,19 +181,20 @@ function wb () {
 
             echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${green}$DATE_MESSAGE."
 
-            for BOOKINGS_COUNTER in {0..$(( $NUM_OF_BOOKINGS - 1 ))}
-            do
+            BOOKINGS_COUNTER=0
+            while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
 
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
 
                 wbRegister "$CURRENT_TASK_BOOKING"
-
+                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
 
             echo ""
             echo "${blue}Overview:${reset}"
-            for BOOKINGS_COUNTER in {0..$(( $NUM_OF_BOOKINGS - 1 ))}
-            do
+
+            BOOKINGS_COUNTER=0
+            while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
 
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
 
@@ -211,7 +212,8 @@ function wb () {
                 echo "${reset}Hours: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
                 echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
                 echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
-                let TOTAL_HOURS_REGISTERED=TOTAL_HOURS_REGISTERED+WORKBOOK_REGISTERED_HOURS
+                let TOTAL_HOURS_REGISTERED=8
+                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
 
             #SUMMARIZE
@@ -230,7 +232,6 @@ function wb () {
 
 
         elif [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]]; then
-
 
             BOOKINGS_COUNTER=0
             WORKBOOK_REGISTERED_HOURS=0
@@ -258,11 +259,9 @@ function wb () {
                 echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
 
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-                let WORKBOOK_REGISTERED_HOURS
             done
 
         elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
-
 
             ALL_DATA=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryAllowedJobsVisualizationCacheRequest?OnlyActiveProjects=true&Date=${DATE}" \
                 -H "Accept: application/json, text/plain, */*" \
@@ -271,7 +270,6 @@ function wb () {
             )
             echo -n "${reset}Enter client and press [ENTER]: "
             read SEARCH_CLIENT
-
             ALL_JOBS=$( echo $ALL_DATA | jq '[.[]  | {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ]' )
             MATCHING_JOBS=$( echo $ALL_JOBS | jq '[.[] | if .CustomerName|test("'$SEARCH_CLIENT'"; "i")  then ( {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ) else empty end ]')
             MATCHING_JOBS_LENGTH=$( echo $MATCHING_JOBS | jq length)
@@ -285,11 +283,12 @@ function wb () {
 
             echo "${reset}Found ${green}$MATCHING_JOBS_LENGTH${reset} job(s) matching the client"
             echo ""
-            for MATCHING_JOBS_COUNTER in {0..$(( $MATCHING_JOBS_LENGTH - 1 ))}
-            do
-                echo "${green}$MATCHING_JOBS_COUNTER: "
-                echo "${reset}Client: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .CustomerName" ) ${reset}Job: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .JobName" )"
+
+            MATCHING_JOBS_COUNTER=0
+            while [ $MATCHING_JOBS_COUNTER -lt $MATCHING_JOBS_LENGTH ]; do
+                echo "${blue}$MATCHING_JOBS_COUNTER: ${reset}Client: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .CustomerName" ) ${reset}Job: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .JobName" )"
                 echo ""
+                let MATCHING_JOBS_COUNTER=MATCHING_JOBS_COUNTER+1
             done
 
             echo -n "${reset}Choose the correct job index and press [ENTER]: "
@@ -303,9 +302,16 @@ function wb () {
 
             MATCHING_TASKS_LENGTH=$( echo $MATCHING_TASKS | jq length)
 
-            for MATCHING_TASKS_COUNTER in {0..$(( $MATCHING_TASKS_LENGTH - 1 ))}
-            do
+            if [[ $MATCHING_TASKS_LENGTH = "0" ]]; then
+                echo "${red}The job you selected doesn't have an assigned task."
+                echo "${reset}Exiting"
+                return
+            fi
+
+            MATCHING_TASKS_COUNTER=0
+            while [ $MATCHING_TASKS_COUNTER -lt $MATCHING_TASKS_LENGTH ]; do
                 echo "${blue}$MATCHING_TASKS_COUNTER: ${reset}Task: ${green}$( echo $MATCHING_TASKS | jq ".[$MATCHING_TASKS_COUNTER] | .TaskName" )"
+                let MATCHING_TASKS_COUNTER=MATCHING_TASKS_COUNTER+1
             done
 
             echo -n "${reset}Choose the correct task and press [ENTER]: "
@@ -327,7 +333,6 @@ function wb () {
                 -H "Cookie: ${COOKIE}" \
                 -X "POST" \
                 -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
-
         fi
 
     else
