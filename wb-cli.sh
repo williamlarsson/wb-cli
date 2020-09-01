@@ -169,10 +169,6 @@ function wb () {
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" )
 
-        FILTER_RESPONSE_DETAILS=$( echo $FILTER_RESPONSE | jq '.[] | .Data | ."0" | .Details ')
-
-        NUM_OF_BOOKINGS=$( echo $FILTER_RESPONSE_DETAILS | jq length)
-
         if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]]; then
 
 
@@ -268,12 +264,16 @@ function wb () {
                 -H "Content-Type: application/json" \
                 -H "Cookie: ${COOKIE}"
             )
+
             echo -n "${reset}Enter client and press [ENTER]: "
             read SEARCH_CLIENT
+
             ALL_JOBS=$( echo $ALL_DATA | jq '[.[]  | {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ]' )
             MATCHING_JOBS=$( echo $ALL_JOBS | jq '[.[] | if .CustomerName|test("'$SEARCH_CLIENT'"; "i")  then ( {"JobName": .JobName, "ProjectName": .ProjectName, "CustomerName": .CustomerName, "Id": .Id} ) else empty end ]')
+            MATCHING_JOBS=$( echo $MATCHING_JOBS | jq 'sort_by(.CustomerName)' )
             MATCHING_JOBS_LENGTH=$( echo $MATCHING_JOBS | jq length)
-
+            MATCHING_CLIENTS=$( echo $MATCHING_JOBS | jq '[.[] | .CustomerName]|unique' )
+            MATCHING_CLIENTS_LENGTH=$( echo $MATCHING_CLIENTS | jq length)
 
             if [[ $MATCHING_JOBS_LENGTH = "0" ]]; then
                 echo "${red}Didn't find a matching client."
@@ -281,19 +281,34 @@ function wb () {
                 return
             fi
 
-            echo "${reset}Found ${green}$MATCHING_JOBS_LENGTH${reset} job(s) matching the client"
+            echo "${reset}Found ${green}$MATCHING_CLIENTS_LENGTH${reset} client(s) with ${green}$MATCHING_JOBS_LENGTH ${reset}job(s) matching your input"
             echo ""
 
+            MATCHING_CLIENTS_COUNTER=0
             MATCHING_JOBS_COUNTER=0
-            while [ $MATCHING_JOBS_COUNTER -lt $MATCHING_JOBS_LENGTH ]; do
-                echo "${blue}$MATCHING_JOBS_COUNTER: ${reset}Client: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .CustomerName" ) ${reset}Job: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .JobName" )"
+            while [ $MATCHING_CLIENTS_COUNTER -lt $MATCHING_CLIENTS_LENGTH ]; do
+                LOCAL_MATCHING_CLIENT=$( echo $MATCHING_CLIENTS | jq .[$MATCHING_CLIENTS_COUNTER] )
+                LOCAL_MATCHING_JOBS=$( echo $MATCHING_JOBS | jq "[.[] | select(.CustomerName == $LOCAL_MATCHING_CLIENT) ]")
+                LOCAL_MATCHING_JOBS_LENGTH=$( echo $LOCAL_MATCHING_JOBS | jq length )
+                echo "${reset}Found ${green}$LOCAL_MATCHING_JOBS_LENGTH${reset} job(s) matching client: ${blue} $LOCAL_MATCHING_CLIENT"
                 echo ""
-                let MATCHING_JOBS_COUNTER=MATCHING_JOBS_COUNTER+1
+                let MATCHING_CLIENTS_COUNTER=MATCHING_CLIENTS_COUNTER+1
+
+                LOCAL_MATCHING_JOBS_COUNTER=0
+                while [ $LOCAL_MATCHING_JOBS_COUNTER -lt $LOCAL_MATCHING_JOBS_LENGTH ]; do
+                    echo "${blue}$(( $MATCHING_JOBS_COUNTER + 1 )): ${reset}Job: ${green}$( echo $MATCHING_JOBS | jq ".[$MATCHING_JOBS_COUNTER] | .JobName" )"
+                    echo ""
+                    let LOCAL_MATCHING_JOBS_COUNTER=LOCAL_MATCHING_JOBS_COUNTER+1
+                    let MATCHING_JOBS_COUNTER=MATCHING_JOBS_COUNTER+1
+                done
+
             done
 
+
             echo -n "${reset}Choose the correct job index and press [ENTER]: "
-            read USER_CLIENT
-            USER_JOB_ID=$( echo $MATCHING_JOBS | jq ".[$USER_CLIENT] | .Id" )
+            read USER_JOB
+            USER_JOB=$(( $USER_JOB - 1 ))
+            USER_JOB_ID=$( echo $MATCHING_JOBS | jq ".[$USER_JOB] | .Id" )
 
             MATCHING_TASKS=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TasksTimeRegistrationRequest?JobId=${USER_JOB_ID}&ResourceId=${WORKBOOK_USER_ID}" \
                 -H "Accept: application/json, text/plain, */*" \
@@ -310,13 +325,13 @@ function wb () {
 
             MATCHING_TASKS_COUNTER=0
             while [ $MATCHING_TASKS_COUNTER -lt $MATCHING_TASKS_LENGTH ]; do
-                echo "${blue}$MATCHING_TASKS_COUNTER: ${reset}Task: ${green}$( echo $MATCHING_TASKS | jq ".[$MATCHING_TASKS_COUNTER] | .TaskName" )"
+                echo "${blue}$(( $MATCHING_TASKS_COUNTER + 1 )): ${reset}Task: ${green}$( echo $MATCHING_TASKS | jq ".[$MATCHING_TASKS_COUNTER] | .TaskName" )"
                 let MATCHING_TASKS_COUNTER=MATCHING_TASKS_COUNTER+1
             done
 
             echo -n "${reset}Choose the correct task and press [ENTER]: "
             read USER_TASK
-
+            USER_TASK=$(( $USER_TASK - 1 ))
             WORKBOOK_TASK_ID=$( echo $MATCHING_TASKS | jq ".[$USER_TASK] | .Id" )
 
             echo -n "${reset}Enter amount of desired hours and press [ENTER]: "
@@ -333,8 +348,34 @@ function wb () {
                 -H "Cookie: ${COOKIE}" \
                 -X "POST" \
                 -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
+
         fi
 
+        return;
+        echo "${blue}Overview:${reset}"
+
+        BOOKINGS_COUNTER=0
+        while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
+
+            CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
+
+            WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
+
+            WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j "[.[] | select(.TaskId == $WORKBOOK_TASK_ID) | .Hours ] | add // 0" )
+
+            WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}" )
+
+            echo ""
+            echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
+            echo "${reset}Hours: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
+            echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
+            echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
+            TOTAL_HOURS_REGISTERED=$( jq -n $TOTAL_HOURS_REGISTERED + $WORKBOOK_REGISTERED_HOURS )
+            let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
+        done
     else
         echo "${reset}Usage commands:"
         echo ""
