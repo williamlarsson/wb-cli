@@ -354,6 +354,11 @@ function wb () {
         return;
         echo "${blue}Overview:${reset}"
 
+        REGISTERED_TASKS=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
+            -H "Accept: application/json, text/plain, */*" \
+            -H "Content-Type: application/json" \
+            -H "Cookie: ${COOKIE}" )
+
         BOOKINGS_COUNTER=0
         while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
 
