@@ -91,6 +91,64 @@ function wbRegister () {
     fi
 }
 
+function overview() {
+
+    echo ""
+    echo "${blue}Overview of registrations:${reset}"
+
+    TIME_ENTRY_DAILY_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryDailyRequest?ResourceIds=${WORKBOOK_USER_ID}&Date=${DATE}" \
+        -H "Accept: application/json, text/plain, */*" \
+        -H "Content-Type: application/json" \
+        -H "Cookie: ${COOKIE}"   )
+
+    REGISTERED_TASKS_DATA=$( echo $TIME_ENTRY_DAILY_REQUEST | jq '[.[] | select(.Hours > 0 )]' )
+    REGISTERED_TASKS_LENGTH=$( echo $REGISTERED_TASKS_DATA | jq length )
+
+    REGISTRATIONS_COUNTER=0
+    while [ $REGISTRATIONS_COUNTER -lt $REGISTERED_TASKS_LENGTH ]; do
+
+        CURRENT_REGISTRATION=$( echo $REGISTERED_TASKS_DATA | jq  " .[${REGISTRATIONS_COUNTER}]" )
+
+        WORKBOOK_TASK_ID=$( echo $CURRENT_REGISTRATION | jq -j '.TaskId')
+
+        WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+            -H "Accept: application/json, text/plain, */*" \
+            -H "Content-Type: application/json" \
+            -H "Cookie: ${COOKIE}" )
+
+        echo ""
+        echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
+        echo "${reset}Hours registered: ${green}$( echo $CURRENT_REGISTRATION | jq -j '.Hours')"
+        echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
+        echo "${reset}Description: ${green}$( echo $CURRENT_REGISTRATION | jq -j '.Description')"
+
+        let REGISTRATIONS_COUNTER=REGISTRATIONS_COUNTER+1
+    done
+    REGISTERED_TASKS_HOURS_TOTAL=$( echo $REGISTERED_TASKS_DATA | tr '\r\n' ' ' | jq -j '[.[] | .Hours ] | add // 0' )
+
+    #SUMMARIZE
+    echo ""
+    if [[ "$WEEKDAY" == "5" ]]; then
+        MAX_HOURS=7
+    else
+        MAX_HOURS=7.5
+    fi
+
+    if [[ "$REGISTERED_TASKS_HOURS_TOTAL" == "0"  ]]; then
+        echo "${reset}Nothing was registered"
+
+    elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL>$MAX_HOURS" ) == "true" ]]; then
+        echo "${red}Heads up. You have overbooked with ${green}$( jq -n "$REGISTERED_TASKS_HOURS_TOTAL-$MAX_HOURS" )${red} hours. "
+        echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+
+    elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL<$MAX_HOURS" ) == "true" ]]; then
+        echo "${red}Heads up. You have underbooked with ${green}$( jq -n "$MAX_HOURS-$REGISTERED_TASKS_HOURS_TOTAL" )${red} hours. "
+        echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+    else
+        echo "${green}Done"
+        echo "${reset}Now: ${red} Treci la Traeba!"
+    fi
+}
 function wb () {
     magenta=`tput setaf 5`
     blue=`tput setaf 4`
@@ -106,9 +164,11 @@ function wb () {
         if [[ $(( ${#2} > 0 )) == 1 && $(( ${#2} < 4 )) == 1  ]]; then
             CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $2 * 86400 )) ))
             DATE=$( date -r $CALCULATED_UNIX_DATE +'%Y-%m-%d' )
+            WEEKDAY=$( date -r $CALCULATED_UNIX_DATE +'%u' )
             DATE_MESSAGE="$DATE"
         else
             DATE=${2:-$(date +'%Y-%m-%d')}
+            WEEKDAY=${2:-$(date +'%u')}
             DATE_MESSAGE="${2:-'today'}"
         fi
 
@@ -186,46 +246,8 @@ function wb () {
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
 
-            echo ""
-            echo "${blue}Overview:${reset}"
-
-            BOOKINGS_COUNTER=0
-            while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
-
-                CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
-
-                WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-
-                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j "[.[] | select(.TaskId == $WORKBOOK_TASK_ID) | .Hours ] | add // 0" )
-
-                WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
-                    -H "Accept: application/json, text/plain, */*" \
-                    -H "Content-Type: application/json" \
-                    -H "Cookie: ${COOKIE}" )
-
-                echo ""
-                echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
-                echo "${reset}Hours: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
-                echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
-                echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
-                let TOTAL_HOURS_REGISTERED=8
-                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-            done
-
-            #SUMMARIZE
-            echo ""
-            if [[ $(( $TOTAL_HOURS_BOOKED < $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
-                echo "${red}Heads up. You have overbooked with ${green}$(( $TOTAL_HOURS_REGISTERED - $TOTAL_HOURS_BOOKED ))${red} hours. "
-                echo "${reset}Run the register again to update, or visit workbook manually to correct this."
-
-            elif [[ $(( $TOTAL_HOURS_BOOKED > $TOTAL_HOURS_REGISTERED )) = "1" ]]; then
-                echo "${red}Heads up. You have underbooked with ${green}$(( $TOTAL_HOURS_BOOKED - $TOTAL_HOURS_REGISTERED )) ${red} hours. "
-                echo "${reset}Run the register again to update, or visit workbook manually to correct this."
-            else
-                echo "${green}Done"
-                echo "${reset}Now: ${red} Treci la Traeba!"
-            fi
-
+            # SUMMARIZE
+            overview
 
         elif [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]]; then
 
@@ -237,10 +259,7 @@ function wb () {
             while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
 
                 CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
-
                 WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-
-
                 WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
 
                 WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
@@ -257,13 +276,13 @@ function wb () {
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
 
+
         elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
 
             ALL_DATA=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryAllowedJobsVisualizationCacheRequest?OnlyActiveProjects=true&Date=${DATE}" \
                 -H "Accept: application/json, text/plain, */*" \
                 -H "Content-Type: application/json" \
-                -H "Cookie: ${COOKIE}"
-            )
+                -H "Cookie: ${COOKIE}" )
 
             echo -n "${reset}Enter client and press [ENTER]: "
             read SEARCH_CLIENT
@@ -281,8 +300,11 @@ function wb () {
                 return
             fi
 
-            echo "${reset}Found ${green}$MATCHING_CLIENTS_LENGTH${reset} client(s) with ${green}$MATCHING_JOBS_LENGTH ${reset}job(s) matching your input"
-            echo ""
+
+            if [[ $MATCHING_CLIENTS_LENGTH > 1 ]]; then
+                echo "${reset}Found ${green}$MATCHING_CLIENTS_LENGTH${reset} client(s) with ${green}$MATCHING_JOBS_LENGTH ${reset}job(s) matching your input"
+                echo ""
+            fi
 
             MATCHING_CLIENTS_COUNTER=0
             MATCHING_JOBS_COUNTER=0
@@ -349,38 +371,9 @@ function wb () {
                 -X "POST" \
                 -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
 
+            # SUMMARIZE
+            overview
         fi
-
-        return;
-        echo "${blue}Overview:${reset}"
-
-        REGISTERED_TASKS=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
-            -H "Accept: application/json, text/plain, */*" \
-            -H "Content-Type: application/json" \
-            -H "Cookie: ${COOKIE}" )
-
-        BOOKINGS_COUNTER=0
-        while [ $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
-
-            CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
-
-            WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-
-            WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j "[.[] | select(.TaskId == $WORKBOOK_TASK_ID) | .Hours ] | add // 0" )
-
-            WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
-                -H "Accept: application/json, text/plain, */*" \
-                -H "Content-Type: application/json" \
-                -H "Cookie: ${COOKIE}" )
-
-            echo ""
-            echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
-            echo "${reset}Hours: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
-            echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
-            echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
-            TOTAL_HOURS_REGISTERED=$( jq -n $TOTAL_HOURS_REGISTERED + $WORKBOOK_REGISTERED_HOURS )
-            let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-        done
     else
         echo "${reset}Usage commands:"
         echo ""
@@ -398,4 +391,5 @@ function wb () {
         echo "${green}wb search|manual <yyyy-mm-dd> ${reset}Register to workbook manually for given date"
         echo "${green}wb search|manual <-int|int>   ${reset}Register to workbook manually +/- amount of days"
     fi
+
 }
