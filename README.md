@@ -17,8 +17,18 @@ Win: `chocolatey install jq`
 ### Setup complete
 
 ## Usage
+        wb                            Get overview of commands
 
-        wb                          Command to register to workbook
-        wb <yyyy-mm-dd>             Register for given date
-        wb bookings                 Get bookings overview for today
-        wb bookings <yyyy-mm-dd>    Get bookings overview for given date
+        wb reg|register               Register to workbook
+        wb reg|register <yyyy-mm-dd>  Register for given date
+        wb reg|register <-int|int>    Register for +/- amount of days.
+                                      Example: wb reg -1 -> Register for yesterday
+
+        wb bookings                   Get bookings overview for today
+        wb bookings <yyyy-mm-dd>      Get bookings overview for given date
+        wb bookings <-int|int>        Get bookings overview +/- amount of days
+                                      Example: wb bookings +1 -> Get bookings for tomorrow
+
+        wb search|manual              Register to workbook manually
+        wb search|manual <yyyy-mm-dd> Register to workbook manually for given date
+        wb search|manual <-int|int>   Register to workbook manually +/- amount of days
