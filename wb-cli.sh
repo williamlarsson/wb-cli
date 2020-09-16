@@ -140,13 +140,16 @@ function overview() {
     elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL>$MAX_HOURS" ) == "true" ]]; then
         echo "${red}Heads up. You have overbooked with ${green}$( jq -n "$REGISTERED_TASKS_HOURS_TOTAL-$MAX_HOURS" )${red} hours. "
         echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+        afplay "/System/Library/Sounds/Sosumi.aiff"
 
     elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL<$MAX_HOURS" ) == "true" ]]; then
         echo "${red}Heads up. You have underbooked with ${green}$( jq -n "$MAX_HOURS-$REGISTERED_TASKS_HOURS_TOTAL" )${red} hours. "
         echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+        afplay "/System/Library/Sounds/Sosumi.aiff"
     else
         echo "${green}Done"
         echo "${reset}Now: ${red} Treci la Traeba!"
+        afplay "/System/Library/Sounds/Glass.aiff"
     fi
 }
 function wb () {
@@ -275,7 +278,7 @@ function wb () {
 
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
-
+            afplay "/System/Library/Sounds/Bottle.aiff"
 
         elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
 
