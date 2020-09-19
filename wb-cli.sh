@@ -136,20 +136,34 @@ function overview() {
 
     if [[ "$REGISTERED_TASKS_HOURS_TOTAL" == "0"  ]]; then
         echo "${reset}Nothing was registered"
-
-    elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL>$MAX_HOURS" ) == "true" ]]; then
-        echo "${red}Heads up. You have overbooked with ${green}$( jq -n "$REGISTERED_TASKS_HOURS_TOTAL-$MAX_HOURS" )${red} hours. "
-        echo "${reset}Run the register again to update, or visit workbook manually to correct this."
-        afplay "/System/Library/Sounds/Sosumi.aiff"
-
-    elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL<$MAX_HOURS" ) == "true" ]]; then
-        echo "${red}Heads up. You have underbooked with ${green}$( jq -n "$MAX_HOURS-$REGISTERED_TASKS_HOURS_TOTAL" )${red} hours. "
-        echo "${reset}Run the register again to update, or visit workbook manually to correct this."
-        afplay "/System/Library/Sounds/Sosumi.aiff"
     else
-        echo "${green}Done"
-        echo "${reset}Now: ${red} Treci la Traeba!"
-        afplay "/System/Library/Sounds/Glass.aiff"
+        echo "${reset}Hours booked : ${green}$MAX_HOURS"
+        echo "${reset}Hours registered: ${green}$REGISTERED_TASKS_HOURS_TOTAL"
+
+        if [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL>$MAX_HOURS" ) == "true" ]]; then
+
+            echo "${red}Heads up. You have overbooked with ${green}$( jq -n "$REGISTERED_TASKS_HOURS_TOTAL-$MAX_HOURS" )${red} hours. "
+            echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+            SOUND_FILE="/System/Library/Sounds/Sosumi.aiff"
+            if test -f "$SOUND_FILE"; then
+                afplay $SOUND_FILE
+            fi
+
+        elif [[ $( jq -n "$REGISTERED_TASKS_HOURS_TOTAL<$MAX_HOURS" ) == "true" ]]; then
+            echo "${red}Heads up. You have underbooked with ${green}$( jq -n "$MAX_HOURS-$REGISTERED_TASKS_HOURS_TOTAL" )${red} hours. "
+            echo "${reset}Run the register again to update, or visit workbook manually to correct this."
+            SOUND_FILE="/System/Library/Sounds/Sosumi.aiff"
+            if test -f "$SOUND_FILE"; then
+                afplay $SOUND_FILE
+            fi
+        else
+            echo "${green}Done"
+            echo "${reset}Now: ${red} Treci la Traeba!"
+            SOUND_FILE="/System/Library/Sounds/Glass.aiff"
+            if test -f "$SOUND_FILE"; then
+                afplay $SOUND_FILE
+            fi
+        fi
     fi
 }
 function wb () {
@@ -159,7 +173,7 @@ function wb () {
     green=`tput setaf 2`
     reset="$(tput sgr0)"
 
-    if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]] || [[ "$1" = "search" ]] || [[ "$1" = "manual" ]]; then
+    if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]] || [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] || [[ "$1" = "overview" ]]; then
 
         echo "${reset}Establishing authentication to workbook..."
 
@@ -278,7 +292,10 @@ function wb () {
 
                 let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
             done
-            afplay "/System/Library/Sounds/Bottle.aiff"
+            SOUND_FILE="/System/Library/Sounds/Bottle.aiff"
+            if test -f "$SOUND_FILE"; then
+                afplay $SOUND_FILE
+            fi
 
         elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
 
@@ -376,6 +393,8 @@ function wb () {
 
             # SUMMARIZE
             overview
+        elif [[ "$1" = "overview" ]]; then
+            overview
         fi
     else
         echo "${reset}Usage commands:"
@@ -396,3 +415,4 @@ function wb () {
     fi
 
 }
+
