@@ -91,10 +91,10 @@ function wbRegister () {
     fi
 }
 
-function overview() {
+function summary() {
 
     echo ""
-    echo "${blue}Overview of registrations:${reset}"
+    echo "${blue}Summary of registrations:${reset}"
 
     TIME_ENTRY_DAILY_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryDailyRequest?ResourceIds=${WORKBOOK_USER_ID}&Date=${DATE}" \
         -H "Accept: application/json, text/plain, */*" \
@@ -173,7 +173,7 @@ function wb () {
     green=`tput setaf 2`
     reset="$(tput sgr0)"
 
-    if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]] || [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] || [[ "$1" = "overview" ]]; then
+    if [[ "$1" = "reg" ]] || [[ "$1" = "bookings" ]] || [[ "$1" = "manual" ]] || [[ "$1" = "summary" ]]; then
 
         echo "${reset}Establishing authentication to workbook..."
 
@@ -246,7 +246,7 @@ function wb () {
             -H "Content-Type: application/json" \
             -H "Cookie: ${COOKIE}" )
 
-        if [[ "$1" = "register" ]] || [[ "$1" = "reg" ]]; then
+        if [[ "$1" = "reg" ]]; then
 
 
             TOTAL_HOURS_BOOKED=0
@@ -264,9 +264,9 @@ function wb () {
             done
 
             # SUMMARIZE
-            overview
+            summary
 
-        elif [[ "$1" = "bookings" ]] || [[ "$1" = "today" ]]; then
+        elif [[ "$1" = "bookings" ]]; then
 
             BOOKINGS_COUNTER=0
             WORKBOOK_REGISTERED_HOURS=0
@@ -297,7 +297,7 @@ function wb () {
                 afplay $SOUND_FILE
             fi
 
-        elif [[ "$1" = "search" ]] || [[ "$1" = "manual" ]] ; then
+        elif [[ "$1" = "manual" ]] ; then
 
             ALL_DATA=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryAllowedJobsVisualizationCacheRequest?OnlyActiveProjects=true&Date=${DATE}" \
                 -H "Accept: application/json, text/plain, */*" \
@@ -392,26 +392,32 @@ function wb () {
                 -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
 
             # SUMMARIZE
-            overview
-        elif [[ "$1" = "overview" ]]; then
-            overview
+            summary
+        elif [[ "$1" = "summary" ]]; then
+            summary
         fi
     else
         echo "${reset}Usage commands:"
         echo ""
-        echo "${green}wb reg|register               ${reset}Register to workbook"
-        echo "${green}wb reg|register <yyyy-mm-dd>  ${reset}Register for given date"
-        echo "${green}wb reg|register <-int|int>    ${reset}Register for +/- amount of days."
-        echo "                              ${blue}Example: wb reg -1 -> Register for yesterday"
+        echo "${green}wb reg                        ${reset}Register to workbook"
+        echo "${green}wb reg <yyyy-mm-dd>           ${reset}Register for given date"
+        echo "${green}wb reg <-int|int>             ${reset}Register for +/- amount of days."
+        echo "                              ${blue}Example: wb reg -1 //Register for yesterday"
         echo ""
-        echo "${green}wb bookings                   ${reset}Get bookings overview for today"
-        echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings overview for given date"
-        echo "${green}wb bookings <-int|int>        ${reset}Get bookings overview +/- amount of days"
-        echo "                              ${blue}Example: wb bookings +1 -> Get bookings for tomorrow"
+        echo "${green}wb manual                     ${reset}Register to workbook manually"
+        echo "${green}wb manual <yyyy-mm-dd>        ${reset}Register to workbook manually for given date"
+        echo "${green}wb manual <-int|int>          ${reset}Register to workbook manually +/- amount of days"
+        echo "                              ${blue}Example: wb manual //Register to workbook manually for today"
         echo ""
-        echo "${green}wb search|manual              ${reset}Register to workbook manually"
-        echo "${green}wb search|manual <yyyy-mm-dd> ${reset}Register to workbook manually for given date"
-        echo "${green}wb search|manual <-int|int>   ${reset}Register to workbook manually +/- amount of days"
+        echo "${green}wb bookings                   ${reset}Get bookings summary for today"
+        echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings summary for given date"
+        echo "${green}wb bookings <-int|int>        ${reset}Get bookings summary +/- amount of days"
+        echo "                              ${blue}Example: wb bookings +1 //Get bookings for tomorrow"
+        echo ""
+        echo "${green}wb summary                    ${reset}Get registrations summary for today"
+        echo "${green}wb summary <yyyy-mm-dd>       ${reset}Get registrations summary for given date"
+        echo "${green}wb summary <-int|int>         ${reset}Get registrations summary +/- amount of days"
+        echo "                              ${blue}Example: wb summary 2020-01-01 //Get summary for given date"
     fi
 
 }
