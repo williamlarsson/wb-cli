@@ -166,6 +166,7 @@ function summary() {
         fi
     fi
 }
+
 function wb () {
     magenta=`tput setaf 5`
     blue=`tput setaf 4`
@@ -177,19 +178,39 @@ function wb () {
 
         echo "${reset}Establishing authentication to workbook..."
 
-        # SET DATE ACCORDING TO USER INPUT
-        if [[ $(( ${#2} > 0 )) == 1 && $(( ${#2} < 4 )) == 1  ]]; then
+        REGEXP="(-?\+?[[:digit:]]+)...(-?\+?[[:digit:]]+)"
+        if [[ $2 =~ $REGEXP ]]; then
+
+            USE_MULTIPLE_DATES=1
+            START_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( ${BASH_REMATCH[1]} * 86400 )) ))
+            START_DATE=$( date -r $START_CALCULATED_UNIX_DATE +'%Y-%m-%d' )
+            START_WEEKDAY=$( date -r $START_CALCULATED_UNIX_DATE +'%u' )
+            START_DATE_MESSAGE="$START_DATE"
+            DATE=$START_DATE
+
+            END_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( ${BASH_REMATCH[2]} * 86400 )) ))
+            END_DATE=$( date -r $END_CALCULATED_UNIX_DATE +'%Y-%m-%d' )
+            END_WEEKDAY=$( date -r $END_CALCULATED_UNIX_DATE +'%u' )
+            END_DATE_MESSAGE="$END_DATE"
+
+            echo $START_DATE
+            echo $END_DATE
+            echo $END_DATE_MESSAGE
+
+        elif [[ $(( ${#2} >= 1 )) == 1 && $(( ${#2} <= 3 )) == 1  ]]; then
+            # SET DATE BY DAYS SPAN
             CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $2 * 86400 )) ))
             DATE=$( date -r $CALCULATED_UNIX_DATE +'%Y-%m-%d' )
             WEEKDAY=$( date -r $CALCULATED_UNIX_DATE +'%u' )
             DATE_MESSAGE="$DATE"
+            echo "one"
         else
+            # SET DATE BY FORMAT YYYY-MM-DD
             DATE=${2:-$(date +'%Y-%m-%d')}
             WEEKDAY=${2:-$(date +'%u')}
             DATE_MESSAGE="${2:-'today'}"
         fi
-
-
+        return
 
         AUTH_WITHOUT_HEADERS=$(curl -s "https://workbook.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
@@ -422,3 +443,4 @@ function wb () {
 
 }
 
+wb bookings 0...5
