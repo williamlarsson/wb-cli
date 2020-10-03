@@ -94,7 +94,7 @@ function wbRegister () {
 function summary() {
 
     echo ""
-    echo "${blue}Summary of registrations:${reset}"
+    echo "${blue}Summary of registrations for ${green}${DATE_MESSAGE}:${reset}"
 
     TIME_ENTRY_DAILY_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryDailyRequest?ResourceIds=${WORKBOOK_USER_ID}&Date=${DATE}" \
         -H "Accept: application/json, text/plain, */*" \
@@ -157,14 +157,52 @@ function summary() {
                 afplay $SOUND_FILE
             fi
         else
-            echo "${green}Done"
-            echo "${reset}Now: ${red} Treci la Traeba!"
+            # echo "${green}Done"
+            # echo "${reset}Now: ${red} Treci la Traeba!"
             SOUND_FILE="/System/Library/Sounds/Glass.aiff"
             if test -f "$SOUND_FILE"; then
                 afplay $SOUND_FILE
             fi
         fi
     fi
+}
+
+function bookings() {
+     FILTER_RESPONSE=$( curl -s "https://workbook.magnetix.dk/api/schedule/weekly/visualization/data?ResourceIds=${WORKBOOK_USER_ID}&PeriodType=1&Date=${DATE}&Interval=1" \
+        -H "Accept: application/json, text/plain, */*" \
+        -H "Content-Type: application/json" \
+        -H "Cookie: ${COOKIE}" \
+        -X "POST" \
+        -d '{}' )
+
+    FILTER_RESPONSE_DETAILS=$( echo $FILTER_RESPONSE | jq '.[] | .Data | ."0" | .Details ')
+
+    NUM_OF_BOOKINGS=$( echo $FILTER_RESPONSE_DETAILS | jq length)
+    BOOKINGS_COUNTER=0
+    WORKBOOK_REGISTERED_HOURS=0
+
+    echo ""
+    echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${green}$DATE_MESSAGE."
+
+    while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
+
+        CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
+        WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
+        WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
+
+        WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
+            -H "Accept: application/json, text/plain, */*" \
+            -H "Content-Type: application/json" \
+            -H "Cookie: ${COOKIE}" )
+
+        echo ""
+        echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
+        echo "${reset}Hours booked: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
+        echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
+        echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
+
+        let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
+    done
 }
 
 function wb () {
@@ -178,39 +216,40 @@ function wb () {
 
         echo "${reset}Establishing authentication to workbook..."
 
-        REGEXP="(-?\+?[[:digit:]]+)...(-?\+?[[:digit:]]+)"
+        unset END_DATE
+        unset START_DATE
+        # (-?\+?\d)\.{2,3}(-?\+?\d+)
+        REGEXP="(-?\+?[[:digit:]]+)\.+(-?\+?[[:digit:]]+)"
+
         if [[ $2 =~ $REGEXP ]]; then
 
-            USE_MULTIPLE_DATES=1
-            START_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( ${BASH_REMATCH[1]} * 86400 )) ))
-            START_DATE=$( date -r $START_CALCULATED_UNIX_DATE +'%Y-%m-%d' )
+            START_DATE_INT=${BASH_REMATCH[1]}
+            START_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $START_DATE_INT * 86400 )) ))
+            START_DATE=$( date -r $START_CALCULATED_UNIX_DATE +'%Y%m%d' )
             START_WEEKDAY=$( date -r $START_CALCULATED_UNIX_DATE +'%u' )
-            START_DATE_MESSAGE="$START_DATE"
-            DATE=$START_DATE
+            START_DATE_MESSAGE="$DATE"
 
-            END_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( ${BASH_REMATCH[2]} * 86400 )) ))
-            END_DATE=$( date -r $END_CALCULATED_UNIX_DATE +'%Y-%m-%d' )
+            DATE="$START_DATE"
+            DATE_MESSAGE="$START_DATE_MESSAGE"
+
+            END_DATE_INT=${BASH_REMATCH[2]}
+            END_CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $END_DATE_INT * 86400 )) ))
+            END_DATE=$( date -r $END_CALCULATED_UNIX_DATE +'%Y%m%d' )
             END_WEEKDAY=$( date -r $END_CALCULATED_UNIX_DATE +'%u' )
             END_DATE_MESSAGE="$END_DATE"
-
-            echo $START_DATE
-            echo $END_DATE
-            echo $END_DATE_MESSAGE
 
         elif [[ $(( ${#2} >= 1 )) == 1 && $(( ${#2} <= 3 )) == 1  ]]; then
             # SET DATE BY DAYS SPAN
             CALCULATED_UNIX_DATE=$(( $( date +"%s" ) + $(( $2 * 86400 )) ))
-            DATE=$( date -r $CALCULATED_UNIX_DATE +'%Y-%m-%d' )
-            WEEKDAY=$( date -r $CALCULATED_UNIX_DATE +'%u' )
+            DATE=$( date -r $CALCULATED_UNIX_DATE +'%Y%m%d' )
+            START_WEEKDAY=$( date -r $CALCULATED_UNIX_DATE +'%u' )
             DATE_MESSAGE="$DATE"
-            echo "one"
         else
             # SET DATE BY FORMAT YYYY-MM-DD
             DATE=${2:-$(date +'%Y-%m-%d')}
-            WEEKDAY=${2:-$(date +'%u')}
+            START_WEEKDAY=${2:-$(date +'%u')}
             DATE_MESSAGE="${2:-'today'}"
         fi
-        return
 
         AUTH_WITHOUT_HEADERS=$(curl -s "https://workbook.magnetix.dk/api/auth/ldap" \
             -H "Content-Type: application/json" \
@@ -249,26 +288,29 @@ function wb () {
 
         COOKIE="X-UAId=; ss-opt=perm; ss-pid=${SS_PID}; ss-id=${SS_ID};"
 
-        FILTER_RESPONSE=$( curl -s "https://workbook.magnetix.dk/api/schedule/weekly/visualization/data?ResourceIds=${WORKBOOK_USER_ID}&PeriodType=1&Date=${DATE}&Interval=1" \
-            -H "Accept: application/json, text/plain, */*" \
-            -H "Content-Type: application/json" \
-            -H "Cookie: ${COOKIE}" \
-            -X "POST" \
-            -d '{}' )
+        if [[ -z $START_DATE ]]; then
 
-        FILTER_RESPONSE_DETAILS=$( echo $FILTER_RESPONSE | jq '.[] | .Data | ."0" | .Details ')
+            FILTER_RESPONSE=$( curl -s "https://workbook.magnetix.dk/api/schedule/weekly/visualization/data?ResourceIds=${WORKBOOK_USER_ID}&PeriodType=1&Date=${DATE}&Interval=1" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}" \
+                -X "POST" \
+                -d '{}' )
 
-        NUM_OF_BOOKINGS=$( echo $FILTER_RESPONSE_DETAILS | jq length)
+            FILTER_RESPONSE_DETAILS=$( echo $FILTER_RESPONSE | jq '.[] | .Data | ."0" | .Details ')
 
-        BOOKINGS_COUNTER=0
+            NUM_OF_BOOKINGS=$( echo $FILTER_RESPONSE_DETAILS | jq length)
 
-        REGISTERED_TASKS=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
-            -H "Accept: application/json, text/plain, */*" \
-            -H "Content-Type: application/json" \
-            -H "Cookie: ${COOKIE}" )
+            BOOKINGS_COUNTER=0
+
+            REGISTERED_TASKS=$( curl -s "https://workbook.magnetix.dk/api/personalexpense/timeentry/visualization/entries?ResourceId=${WORKBOOK_USER_ID}&Date=${DATE}" \
+                -H "Accept: application/json, text/plain, */*" \
+                -H "Content-Type: application/json" \
+                -H "Cookie: ${COOKIE}" )
+        fi
+
 
         if [[ "$1" = "reg" ]]; then
-
 
             TOTAL_HOURS_BOOKED=0
             TOTAL_HOURS_REGISTERED=0
@@ -286,37 +328,6 @@ function wb () {
 
             # SUMMARIZE
             summary
-
-        elif [[ "$1" = "bookings" ]]; then
-
-            BOOKINGS_COUNTER=0
-            WORKBOOK_REGISTERED_HOURS=0
-
-            echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${green}$DATE_MESSAGE."
-
-            while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
-
-                CURRENT_TASK_BOOKING=$( echo $FILTER_RESPONSE_DETAILS | jq  " .[${BOOKINGS_COUNTER}]" )
-                WORKBOOK_TASK_ID=$( echo $CURRENT_TASK_BOOKING | jq -j '.TaskId')
-                WORKBOOK_REGISTERED_HOURS=$( echo $REGISTERED_TASKS | tr '\r\n' ' ' | jq -j '[.[] | select(.TaskId == '$WORKBOOK_TASK_ID') | .Hours ] | add // 0' )
-
-                WORKBOOK_TASK_DATA=$( curl -s "https://workbook.magnetix.dk/api/task/${WORKBOOK_TASK_ID}/visualization" \
-                    -H "Accept: application/json, text/plain, */*" \
-                    -H "Content-Type: application/json" \
-                    -H "Cookie: ${COOKIE}" )
-
-                echo ""
-                echo "${reset}Client: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.JobName')"
-                echo "${reset}Hours booked: ${green}$( echo $CURRENT_TASK_BOOKING | jq -j '.Hours')"
-                echo "${reset}Hours registered: ${green}$WORKBOOK_REGISTERED_HOURS"
-                echo "${reset}Taskname: ${green}$( echo $WORKBOOK_TASK_DATA | jq -j '.TaskName')"
-
-                let BOOKINGS_COUNTER=BOOKINGS_COUNTER+1
-            done
-            SOUND_FILE="/System/Library/Sounds/Bottle.aiff"
-            if test -f "$SOUND_FILE"; then
-                afplay $SOUND_FILE
-            fi
 
         elif [[ "$1" = "manual" ]] ; then
 
@@ -411,12 +422,36 @@ function wb () {
                 -H "Cookie: ${COOKIE}" \
                 -X "POST" \
                 -d '{"ResourceId":'$WORKBOOK_USER_ID',"TaskId":'$WORKBOOK_TASK_ID',"Hours":'$USER_HOURS',"Description":"'"$USER_DESCRIPTION"'", "Date":'$DATE'T00:00:00.000Z}' )
-
             # SUMMARIZE
             summary
-        elif [[ "$1" = "summary" ]]; then
-            summary
+
+        elif [[ "$1" = "bookings" ]] || [[ "$1" = "summary" ]]; then
+
+            if [[ -z $START_DATE ]]; then
+                [[ "$1" = "bookings" ]] && bookings || summary
+            else
+                DATE_TODAY=$( date +'%Y%m%d')
+                DATE="$START_DATE"
+                DATE_COUNTER=$START_DATE_INT
+                [[ $(( $END_DATE - $START_DATE )) > 0 ]] && DATE_DIRECTION=+ || DATE_DIRECTION=-
+
+                while [  $DATE -ne $END_DATE ]; do
+                    [[ $(( $DATE - $DATE_TODAY )) < 0 ]] && DATE_OPERATOR=- || DATE_OPERATOR=+
+                    [[ $DATE_COUNTER -ne 0 ]] && DATE=$( date -v "${DATE_OPERATOR}${DATE_COUNTER#-}d" +'%Y%m%d') || DATE=$( date +'%Y%m%d')
+                    DATE_MESSAGE="$( date -v "${DATE_OPERATOR}${DATE_COUNTER#-}d" +'%A %d/%m' )"
+
+                    [[ "$1" = "bookings" ]] && bookings || summary
+
+                let DATE_COUNTER=$(( $DATE_COUNTER $DATE_DIRECTION 1 ))
+                done
+            fi
+
+            SOUND_FILE="/System/Library/Sounds/Bottle.aiff"
+            if test -f "$SOUND_FILE"; then
+                afplay $SOUND_FILE
+            fi
         fi
+
     else
         echo "${reset}Usage commands:"
         echo ""
@@ -433,6 +468,7 @@ function wb () {
         echo "${green}wb bookings                   ${reset}Get bookings summary for today"
         echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings summary for given date"
         echo "${green}wb bookings <-int|int>        ${reset}Get bookings summary +/- amount of days"
+
         echo "                              ${blue}Example: wb bookings +1 //Get bookings for tomorrow"
         echo ""
         echo "${green}wb summary                    ${reset}Get registrations summary for today"
@@ -440,7 +476,4 @@ function wb () {
         echo "${green}wb summary <-int|int>         ${reset}Get registrations summary +/- amount of days"
         echo "                              ${blue}Example: wb summary 2020-01-01 //Get summary for given date"
     fi
-
 }
-
-wb bookings 0...5
