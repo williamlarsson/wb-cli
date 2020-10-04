@@ -94,7 +94,7 @@ function wbRegister () {
 function summary() {
 
     echo ""
-    echo "${blue}Summary of registrations for ${green}${DATE_MESSAGE}:${reset}"
+    echo "${reset}Summary of registrations for ${blue}${DATE_MESSAGE}:${reset}"
 
     TIME_ENTRY_DAILY_REQUEST=$( curl -s "https://workbook.magnetix.dk/api/json/reply/TimeEntryDailyRequest?ResourceIds=${WORKBOOK_USER_ID}&Date=${DATE}" \
         -H "Accept: application/json, text/plain, */*" \
@@ -182,7 +182,7 @@ function bookings() {
     WORKBOOK_REGISTERED_HOURS=0
 
     echo ""
-    echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${green}$DATE_MESSAGE."
+    echo "${reset}You have ${green}$NUM_OF_BOOKINGS ${reset}booking(s) for ${blue}$DATE_MESSAGE."
 
     while [  $BOOKINGS_COUNTER -lt $NUM_OF_BOOKINGS ]; do
 
@@ -441,6 +441,8 @@ function wb () {
                     DATE_MESSAGE="$( date -v "${DATE_OPERATOR}${DATE_COUNTER#-}d" +'%A %d/%m' )"
 
                     [[ "$1" = "bookings" ]] && bookings || summary
+                    echo ""
+                    echo "${reset}-------------------"
 
                 let DATE_COUNTER=$(( $DATE_COUNTER $DATE_DIRECTION 1 ))
                 done
@@ -462,18 +464,21 @@ function wb () {
         echo ""
         echo "${green}wb manual                     ${reset}Register to workbook manually"
         echo "${green}wb manual <yyyy-mm-dd>        ${reset}Register to workbook manually for given date"
-        echo "${green}wb manual <-int|int>          ${reset}Register to workbook manually +/- amount of days"
+        echo "${green}wb manual <-int|int>          ${reset}Register to workbook manually for +/- amount of days"
         echo "                              ${blue}Example: wb manual //Register to workbook manually for today"
         echo ""
         echo "${green}wb bookings                   ${reset}Get bookings summary for today"
         echo "${green}wb bookings <yyyy-mm-dd>      ${reset}Get bookings summary for given date"
-        echo "${green}wb bookings <-int|int>        ${reset}Get bookings summary +/- amount of days"
-
+        echo "${green}wb bookings <-int|int>        ${reset}Get bookings summary for +/- amount of days"
+        echo "${green}wb bookings <int...int>       ${reset}Get bookings summary for span of dates"
         echo "                              ${blue}Example: wb bookings +1 //Get bookings for tomorrow"
+        echo "                              ${blue}Example: wb bookings 0...2 //Get bookings for today + 2 days ahead"
         echo ""
         echo "${green}wb summary                    ${reset}Get registrations summary for today"
         echo "${green}wb summary <yyyy-mm-dd>       ${reset}Get registrations summary for given date"
-        echo "${green}wb summary <-int|int>         ${reset}Get registrations summary +/- amount of days"
+        echo "${green}wb summary <-int|int>         ${reset}Get registrations summary for +/- amount of days"
+        echo "${green}wb summary <int...int>        ${reset}Get registrations summary for span of dates"
+        echo "                              ${blue}Example: wb summary -3...0 //Get summary for last 3 days"
         echo "                              ${blue}Example: wb summary 2020-01-01 //Get summary for given date"
     fi
 }

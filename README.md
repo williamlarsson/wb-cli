@@ -28,17 +28,21 @@ Win: `chocolatey install jq`
         wb reg <-int|int>               Register for +/- amount of days.
                                         Example: wb reg -1 //Register for yesterday
 
-        wb bookings                     Get bookings overview for today
-        wb bookings <yyyy-mm-dd>        Get bookings overview for given date
-        wb bookings <-int|int>          Get bookings overview +/- amount of days
-                                        Example: wb manual //Register to workbook manually for today
-
         wb manual                       Register to workbook manually
         wb manual <yyyy-mm-dd>          Register to workbook manually for given date
         wb manual <-int|int>            Register to workbook manually +/- amount of days
                                         Example: wb bookings +1 //Get bookings for tomorrow
 
+        wb bookings                     Get bookings overview for today
+        wb bookings <yyyy-mm-dd>        Get bookings overview for given date
+        wb bookings <-int|int>          Get bookings overview +/- amount of days
+        wb bookings <int...int>         Get bookings summary for span of dates"
+                                        Example: wb bookings +1 //Get bookings for tomorrow"
+                                        Example: wb bookings 0...2 //Get bookings for today + 2 days ahead"
+
         wb summary                      Get registrations summary for today
         wb summary <yyyy-mm-dd>         Get registrations summary for given date
         wb summary <-int|int>           Get registrations summary +/- amount of days
-                                        Example: wb summary 2020-01-01 //Get summary for given date
+        wb summary <int...int>          Get registrations summary for span of dates"
+                                        Example: wb summary -3...0 //Get summary for last 3 days"
+                                        Example: wb summary 2020-01-01 //Get summary for given date"
